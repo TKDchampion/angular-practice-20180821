@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CarServiceService } from './car-service.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-practice20180821';
+  list: any
+  listOriginal: any
+  constructor(private carService: CarServiceService){
+    carService.getData().subscribe(resp => {
+      this.listOriginal = this.list = resp
+    })
+  }
+  searchKeyword($event) {
+    this.list = $event ? this.listOriginal.filter(i => i.name.includes($event)) : this.listOriginal
+  }
+
 }
